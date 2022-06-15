@@ -6,13 +6,47 @@ class SNAKE:
         self.body = [Vector2(5,10),Vector2(4,10),Vector2(3,10)]
         self.direction = Vector2(1,0)
         self.new_block = False
+
+        self.head_up = pygame.image.load('assets/head_up.png').convert_alpha()
+        self.head_down = pygame.image.load('assets/head_down.png').convert_alpha()
+        self.head_left = pygame.image.load('assets/head_left.png').convert_alpha()
+        self.head_right = pygame.image.load('assets/head_right.png').convert_alpha()
+
+        self.tail_up = pygame.image.load('assets/tail_up.png').convert_alpha()
+        self.tail_down = pygame.image.load('assets/tail_down.png').convert_alpha()
+        self.tail_left = pygame.image.load('assets/tail_left.png').convert_alpha()
+        self.tail_right = pygame.image.load('assets/tail_right.png').convert_alpha()
+
+        self.hor = pygame.image.load('assets/hor.png').convert_alpha()
+        self.ver = pygame.image.load('assets/ver.png').convert_alpha()
+
+        self.tr = pygame.image.load('assets/tr.png').convert_alpha()
+        self.tl = pygame.image.load('assets/tl.png').convert_alpha()
+        self.br = pygame.image.load('assets/br.png').convert_alpha()
+        self.bl = pygame.image.load('assets/bl.png').convert_alpha()
     
     def draw_snake(self):
-        for block in self.body:
+        self.update_head_graphics()
+
+        for index,block in enumerate(self.body):
             x_pos = int(block.x * cell_size)
             y_pos = int(block.y * cell_size)
             block_rect = pygame.Rect(x_pos,y_pos,cell_size,cell_size)
-            pygame.draw.rect(screen,(250,0,0),block_rect)
+
+            if index == 0:
+                screen.blit(self.head,block_rect)
+            else:
+                pygame.draw.rect(screen,(150,100,100),block_rect)
+
+    def update_head_graphics(self):
+        head_relation = self.body[1] - self.body[0]
+        if head_relation == Vector2(1,0): self.head = self.head_left
+        elif head_relation == Vector2(-1,0): self.head = self.head_right
+        elif head_relation == Vector2(0,1): self.head = self.head_up
+        elif head_relation == Vector2(0,-1): self.head = self.head_down
+
+
+
 
     def move_snake(self):
         if self.new_block == True:
